@@ -1,0 +1,62 @@
+{
+    "id": "org.hannink.prowl",
+    "name": {
+        "en": "Prowl Notifications"
+    },
+    "version": "0.0.1",
+    "compatibility": "0.x || 1.x",
+    "author": {
+        "name": "Remco Hannink",
+        "email": "remco@hannink.org"
+    },
+    "images": {
+      "large": "./assets/images/large.jpg",
+      "small": "./assets/images/small.jpg"
+    },
+    "category": "internet",
+    "description": {
+    "en": "Prowl notifications for Homey",
+    "nl": "Prowl notificatie voor Homey"
+    },
+    "permissions": ["homey:manager:ledring"
+    ],
+    "flow": {
+        "actions": [
+        {
+            "id": "prowlSend",
+            "title": {
+                "en": "Prowl notification",
+                "nl": "Prowl notificatie"
+            },
+            "args": [
+              {
+                  "name":"message",
+                  "type":"text",
+                  "placeholder":{
+                     "en":"Message",
+                     "nl":"Bericht"
+                  }
+               },
+               {
+                "name": "priority",
+                "type": "dropdown",
+                "values": [
+                  { "id": "Normal", "label": { "en": "Normal" }},
+                  { "id": "Very Low", "label": { "en": "Very Low" }},
+                  { "id": "Moderate", "label": { "en": "Moderate" }},
+                  { "id": "High", "label": { "en": "High" }},
+		              { "id": "Emergency", "label": {"en": "Emergency" }}
+                ],
+                "placeholder": { "en": "Priority" }
+              }
+            ]
+        }
+
+      ]
+    },
+    "dependencies": {
+    		"node-prowl": "*",
+		    "https": "*",
+        "http-min": "*"
+    }
+}

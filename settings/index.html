@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+  <script type="text/javascript" src="/manager/webserver/assets/js/jquery.js"></script>
+</head>
+<body>
+
+<h1 data-i18n="settings.title"></h1>
+<p data-i18n="settings.intro"></p>
+<p data-i18n="settings.tutorial"></p>
+
+<fieldset>
+    <legend data-i18n="settings.legend"></legend>
+
+    <style>
+      .form_label {
+        width: 100px !important;
+        display: block !important;
+        margin-right: 20px;
+      }
+
+      .form_input {
+        width: 250px !important;
+        display: block !important;
+      }
+
+      select {
+        padding: .5em .75em;
+        vertical-align: middle;
+        font-size: 12px;
+        font-family: inherit;
+        font-weight: inherit;
+        border: 1px solid #aaa;
+        border-radius: 2px;
+        width:270px !important;
+      }
+
+      button {
+        margin-right:15px;
+      }
+    </style>
+
+
+    <div class="field row">
+        <label class="form_label"  for="prowl_token" data-i18n="settings.prowlToken"></label>
+        <input class="form_input" id="prowl_token" type="text" value="" />
+    </div>
+    <input type="checkbox" id="prowl_ledring" value="prowl_ledring"> <label for="prowl_ledring">Light led ring upon sending notification?</label>
+    <br>
+    <br>
+    <label id="prowl_validation"></label>
+    <br>
+    <button id="saveProwl" class="left" data-i18n="settings.saveProwl" onclick="saveProwl()"></button>
+    <button id="clearProwl" class="left" data-i18n="settings.clearProwl" onclick="clearProwlSettings()"></button>
+
+</fieldset>
+
+
+
+<script type="text/javascript">
+
+    var currentProwlAccount;
+    var validationStatus;
+
+    // Initialize Homey
+    function onHomeyReady() {
+
+
+      // Ready
+      Homey.ready();
+
+      // Get saved account settings
+      Homey.get("prowlaccount", function (err, value) {
+        if (value != null) {
+
+			// Set current accounts
+			currentProwlAccount = value;
+
+      		document.getElementById('prowl_token').value = currentProwlAccount['token'];
+          if(currentProwlAccount['ledring'] == true) {
+            document.getElementById('prowl_ledring').checked = true;
+          } else {
+            document.getElementById('prowl_ledring').checked = false;
+          }
+        } else {
+        }
+
+      });
+
+
+
+    }
+
+
+    function validation () {
+      Homey.get("prowlvervalidation", function (err, value){
+
+        if (value == 'Validation successful'){
+          document.getElementById('prowl_validation').innerHTML = value;
+          document.getElementById('prowl_validation').style.color = "lightgreen";
+        } else if (value == 'Validation failed, bad user/api key!'){
+          document.getElementById('prowl_validation').innerHTML = value;
+          document.getElementById('prowl_validation').style.color = "red";
+        }
+      });
+    }
+
+
+
+    function clearProwlSettings() {
+
+      document.getElementById('prowl_token').value = '';
+
+    }
+
+
+    // Save updated settings
+    function saveProwl() {
+
+
+		// Build array
+        currentProwlAccount = {
+          'token': document.getElementById('prowl_token').value,
+          'ledring': document.getElementById('prowl_ledring').checked
+        };
+
+        // Show clear
+        $('#clearProwl').css('display', 'block');
+
+
+      // Update settings
+      Homey.set("prowlaccount", currentProwlAccount, function (err) {
+          if (err) {
+              // Display failed registration
+              document.getElementById('saveProwl').style['background-color'] = 'lightcoral';
+              document.getElementById('saveProwl').style['color'] = 'black';
+              document.getElementById('saveProwl').innerHTML = __("settings.notsavedProwl");
+          }
+      });
+
+      // Display successful registration
+      document.getElementById('saveProwl').style['background-color'] = 'lightgreen';
+      document.getElementById('saveProwl').style['color'] = 'white';
+      document.getElementById('saveProwl').innerHTML = __("settings.saveProwl");
+
+      setTimeout(function () {
+          // Reset button
+          document.getElementById('saveProwl').style['background-color'] = '';
+          document.getElementById('saveProwl').style['color'] = 'black';
+          document.getElementById('saveProwl').innerHTML = __("settings.saveProwl");
+      }, 3000);
+
+      onHomeyReady();
+
+      setTimeout(validation, 2000);
+    }
+</script>
+
+</body>
+</html>
