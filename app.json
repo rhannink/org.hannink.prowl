@@ -1,7 +1,9 @@
 {
     "id": "org.hannink.prowl",
     "name": {
-        "en": "Prowl Notifications"
+        "en": "Prowl Push Notifications",
+        "nl": "Prowl Push Notificaties"
+
     },
     "version": "0.0.1",
     "compatibility": "0.x || 1.x",
@@ -15,8 +17,8 @@
     },
     "category": "internet",
     "description": {
-    "en": "Prowl notifications for Homey",
-    "nl": "Prowl notificatie voor Homey"
+    "en": "Prowl push notifications for Homey",
+    "nl": "Prowl push notificaties voor Homey"
     },
     "permissions": ["homey:manager:ledring"
     ],
@@ -25,8 +27,8 @@
         {
             "id": "prowlSend",
             "title": {
-                "en": "Prowl notification",
-                "nl": "Prowl notificatie"
+                "en": "Prowl push notification",
+                "nl": "Prowl push notificatie"
             },
             "args": [
               {
@@ -41,13 +43,14 @@
                 "name": "priority",
                 "type": "dropdown",
                 "values": [
-                  { "id": "Normal", "label": { "en": "Normal" }},
-                  { "id": "Very Low", "label": { "en": "Very Low" }},
-                  { "id": "Moderate", "label": { "en": "Moderate" }},
-                  { "id": "High", "label": { "en": "High" }},
-		              { "id": "Emergency", "label": {"en": "Emergency" }}
+                  { "id": "Normal", "label": { "en": "Normal", "nl": "Normaal" }},
+                  { "id": "Very Low", "label": { "en": "Very Low", "nl": "Zeer laag" }},
+                  { "id": "Moderate", "label": { "en": "Moderate", "nl": "Laag" }},
+                  { "id": "High", "label": { "en": "High", "nl": "Hoog" }},
+		              { "id": "Emergency", "label": {"en": "Emergency", "nl": "Noodgeval" }}
                 ],
-                "placeholder": { "en": "Priority" }
+                "placeholder": { "en": "Priority" },
+                "placeholder": { "nl": "Prioriteit" }
               }
             ]
         }
