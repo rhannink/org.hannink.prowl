@@ -4,11 +4,12 @@
 		"intro": "Provide all your settings for the Prowl service below.",
 		"tutorial": "Go to prowlapp.com to get your Api token key for homey",
 		"error": "An error has occurred.",
-      	"prowlToken": "Token API key",
-      	"saveProwl": "Save",
+    "prowlToken": "API key",
+		"prowlLedring": "Light led ring upon sending notification? ",
+    "saveProwl": "Save",
 		"savedProwl": "Saved",
 		"notsavedProwl": "Failed...",
 		"clearProwl": "Clear",
-      	"legend": "Prowl Account"
+    "legend": "Prowl Account"
   }
 }
