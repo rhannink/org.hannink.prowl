@@ -11,6 +11,14 @@
         "name": "Remco Hannink",
         "email": "remco@hannink.org"
     },
+    "contributors": {
+        "developers": [
+            {
+                "name": "Ton Versteeg",
+                "email": "tonversteeg1@gmail.com"
+            }
+        ]
+    },
     "images": {
       "large": "./assets/images/large.jpg",
       "small": "./assets/images/small.jpg"
@@ -47,7 +55,7 @@
                   { "id": "Very Low", "label": { "en": "Very Low", "nl": "Zeer laag" }},
                   { "id": "Moderate", "label": { "en": "Moderate", "nl": "Laag" }},
                   { "id": "High", "label": { "en": "High", "nl": "Hoog" }},
-		              { "id": "Emergency", "label": {"en": "Emergency", "nl": "Noodgeval" }}
+                  { "id": "Emergency", "label": {"en": "Emergency", "nl": "Noodgeval" }}
                 ],
                 "placeholder": { "en": "Priority" },
                 "placeholder": { "nl": "Prioriteit" }
