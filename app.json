@@ -14,8 +14,13 @@
     "contributors": {
         "developers": [
             {
-                "name": "Ton Versteeg",
-                "email": "tonversteeg1@gmail.com"
+              "name": "Remco Hannink",
+              "email": "remco@hannink.org"
+            },
+            {
+
+              "name": "Ton Versteeg",
+              "email": "tonversteeg1@gmail.com"
             }
         ]
     },
