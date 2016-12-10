@@ -13,6 +13,10 @@ Most of the credits for this app go to Ton Versteeg, the author of de Pushover, 
 
 ### Changelog
 
+0.0.4
+
+- Stripped away all the not needed node_modules
+
 0.0.3
 
 - Changed Readme.md Changed path to screenshots
