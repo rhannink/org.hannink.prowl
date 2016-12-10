@@ -13,6 +13,14 @@ Most of the credits for this app go to Ton Versteeg, the author of de Pushover, 
 
 ### Changelog
 
+0.0.3
+
+- Changed Readme.md Changed path to screenshots
+
+0.0.2
+
+- Changed Readme.md changed contributors
+
 0.0.1
 
 - Initial version based on the Pushover app created by Ton Versteeg
@@ -23,6 +31,6 @@ Most of the credits for this app go to Ton Versteeg, the author of de Pushover, 
 - Add use of provider key
 - Strip non necessary modules from code
 
-![alt text](screenshots/Settings1_-_Homey.png "Settings of Prowl app")
+![alt text](https://raw.githubusercontent.com/rhannink/org.hannink.prowl/master/screenshots/Settings1_-_Homey.png "Settings of Prowl app")
 
-![alt tag](screenshots/Flow1_-_Homey.png "Homey action card")
+![alt tag](https://raw.githubusercontent.com/rhannink/org.hannink.prowl/master/screenshots/Flow1_-_Homey.png "Homey action card")
