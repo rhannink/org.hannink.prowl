@@ -12,6 +12,10 @@ This app lets you send Prowl notifications to use in flows on a Homey device (by
 Most of the credits for this app go to Ton Versteeg, the author of de Pushover, Pushalot and Pushbullet app.
 
 ### Changelog
+0.1.1
+
+- Removed test/debug code from prowl library
+
 0.1.0
 
 - Better error handling when network or dns problems exsist.
