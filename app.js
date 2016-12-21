@@ -34,7 +34,8 @@ function buildProwlArray() {
 				validation = "0";
 				logValidation();
 			}
-		});
+		}
+	).on("error", function (err){console.log("get Prowl API error: " + err)});
 
 	} else {
 	Homey.log("Prowl - No account configured yet");
@@ -94,10 +95,10 @@ function prowlSend ( pToken , pMessage, pPriority) {
 		application: "Homey"
 		// priority: priority
 	};
-Homey.log( "net voor aanroep met bericht: " + pMessage );
 	p.push( pMessage, "Homey", function( err, result ) {
 		if ( err ) {
-			throw err;
+			// throw err;
+			console.log("Error in calling push: " + err);
 		} else {
 			if (ledringPreference == true){
 				LedAnimate("green", 3000);

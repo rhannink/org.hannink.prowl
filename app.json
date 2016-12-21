@@ -5,7 +5,7 @@
         "nl": "Prowl Push Notificaties"
 
     },
-    "version": "0.0.4",
+    "version": "0.1.0",
     "compatibility": "0.x || 1.x",
     "author": {
         "name": "Remco Hannink",
