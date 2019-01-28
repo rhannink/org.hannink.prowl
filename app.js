@@ -108,11 +108,13 @@ function InsightEntry(message, date)
 function createInsightlog() {
 	Homey.ManagerInsights.createLog('prowl_sendNotifications', {
 		label: {
-			en: 'Send Notifications'
+			en: 'Send Notifications',
+			nl: 'Verstuurde notificaties'
 		},
 		type: 'number',
 		units: {
-			en: 'notifications'
+			en: 'notifications',
+			nl: 'notificaties'
 		},
 		decimals: 0
 	}).then(function (err){
