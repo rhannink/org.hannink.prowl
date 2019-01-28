@@ -13,6 +13,10 @@ Most of the credits for this app go to Ton Versteeg, the author of de Pushover, 
 For SDKv2 version I used the PushSafer app from Kevin Siml for inspiration.....  
 
 ### Changelog
+2.0.1
+
+- Added missing NodeJS libraries due a gitignore problems
+
 2.0.0
 
 - Ported Homey Prowl app to sdk2
