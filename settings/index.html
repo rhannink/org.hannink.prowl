@@ -1,7 +1,8 @@
 <!doctype html>
 <html>
 <head>
-  <script type="text/javascript" src="/manager/webserver/assets/js/jquery.js"></script>
+	<script type="text/javascript" src="/manager/webserver/assets/js/jquery.js"></script>
+	<script type="text/javascript" src="/homey.js" data-origin="settings"></script>
 </head>
 <body>
 
@@ -42,15 +43,16 @@
 
 
     <div class="field row">
-        <label class="form_label"  for="prowl_token" data-i18n="settings.prowlToken"></label>
+        <label class="form_label" for="prowl_token" data-i18n="settings.prowlToken"></label>
         <input class="form_input" id="prowl_token" type="text" value="" />
     </div>
-    <input type="checkbox" id="prowl_ledring" value="prowl_ledring"> <label for="prowl_ledring" data-i18n="settings.prowlLedring"></label>
+    <input type="checkbox" id="prowl_ledring" value="prowl_ledring">
+    <label for="prowl_ledring" data-i18n="settings.prowlLedring"></label>
     <br>
     <br>
     <label id="prowl_validation"></label>
     <br>
-    <button id="saveProwl" class="left" data-i18n="settings.saveProwl" onclick="saveProwl()"></button>
+	<button type="submit" id="submit" data-i18n="settings.saveProwl"></button>
     <button id="clearProwl" class="left" data-i18n="settings.clearProwl" onclick="clearProwlSettings()"></button>
 
 </fieldset>
@@ -63,7 +65,7 @@
     var validationStatus;
 
     // Initialize Homey
-    function onHomeyReady() {
+    function onHomeyReady(Homey) {
 
 
       // Ready
@@ -76,7 +78,7 @@
 			// Set current accounts
 			currentProwlAccount = value;
 
-      		document.getElementById('prowl_token').value = currentProwlAccount['token'];
+         	document.getElementById('prowl_token').value = currentProwlAccount['token'];
           if(currentProwlAccount['ledring'] == true) {
             document.getElementById('prowl_ledring').checked = true;
           } else {
@@ -87,24 +89,23 @@
 
       });
 
-
-
+	  	$('#submit').on('click', function() {
+			saveProwl(Homey);
+	    });
     }
 
-
-    function validation () {
-      Homey.get("prowlvervalidation", function (err, value){
+    function validation (Homey) {
+      Homey.get("prowlvalidation", function (err, value){
 
         if (value == 'Validation successful'){
           document.getElementById('prowl_validation').innerHTML = value;
           document.getElementById('prowl_validation').style.color = "lightgreen";
-        } else if (value == 'Validation failed, bad user/api key!'){
+        } else if (value == 'Validation failed, bad private or alias key!'){
           document.getElementById('prowl_validation').innerHTML = value;
           document.getElementById('prowl_validation').style.color = "red";
         }
       });
     }
-
 
 
     function clearProwlSettings() {
@@ -115,7 +116,7 @@
 
 
     // Save updated settings
-    function saveProwl() {
+    function saveProwl(Homey) {
 
 
 		// Build array
@@ -141,18 +142,18 @@
       // Display successful registration
       document.getElementById('saveProwl').style['background-color'] = 'lightgreen';
       document.getElementById('saveProwl').style['color'] = 'white';
-      document.getElementById('saveProwl').innerHTML = __("settings.saveProwl");
+      document.getElementById('saveProwl').innerHTML = __("settings.savedProwl");
 
       setTimeout(function () {
           // Reset button
           document.getElementById('saveProwl').style['background-color'] = '';
           document.getElementById('saveProwl').style['color'] = 'black';
-          document.getElementById('saveProwl').innerHTML = __("settings.saveProwl");
+          document.getElementById('saveProwl').innerHTML = __("settings.savedProwl");
       }, 3000);
 
       onHomeyReady();
 
-      setTimeout(validation, 2000);
+      setTimeout(validation(Homey), 2000);
     }
 </script>
 

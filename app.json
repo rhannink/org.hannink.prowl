@@ -1,78 +1,64 @@
 {
-    "id": "org.hannink.prowl",
-    "name": {
-        "en": "Prowl Push Notifications",
-        "nl": "Prowl Push Notificaties"
+	"id": "org.hannink.prowl",
+	"sdk": 2,
+	"name": {
+		"en": "Prowl Notification",
+		"nl": "Prowl notificatie"
+	},
 
-    },
-    "version": "0.1.1",
-    "compatibility": "0.x || 1.x",
-    "author": {
-        "name": "Remco Hannink",
-        "email": "remco@hannink.org"
-    },
-    "contributors": {
-        "developers": [
-            {
-              "name": "Remco Hannink",
-              "email": "remco@hannink.org"
-            },
-            {
-
-              "name": "Ton Versteeg",
-              "email": "tonversteeg1@gmail.com"
-            }
-        ]
-    },
-    "images": {
-      "large": "./assets/images/large.jpg",
-      "small": "./assets/images/small.jpg"
-    },
-    "category": "internet",
-    "description": {
-    "en": "Prowl push notifications for Homey",
-    "nl": "Prowl push notificaties voor Homey"
-    },
-    "permissions": ["homey:manager:ledring"
-    ],
-    "flow": {
-        "actions": [
+	"description": {
+		"en": "Prowl notifications for Homey",
+		"nl": "Prowl notificatie voor Homey"
+	},
+	"images": {
+	  "large": "./assets/images/large.jpg",
+	  "small": "./assets/images/small.jpg"
+	},
+	"category": "internet",
+	"version": "2.0.0",
+	"compatibility": ">=1.5.0",
+	"author": {
+		"name": "Remco Hannink",
+		"email": "info@hannink.org"
+	},
+	"permissions": ["homey:manager:ledring"],
+	"flow": {
+		"actions": [
+		  {
+			"id": "prowlSend",
+			"title": {
+				"en": "Prowl notification",
+				"nl": "Prowl notificatie"
+			},
+			"args": [
+				{
+				  "name":"message",
+				  "type":"text",
+				  "placeholder":{
+					"en":"Message",
+					"nl":"Bericht"
+				  }
+				},
         {
-            "id": "prowlSend",
-            "title": {
-                "en": "Prowl push notification",
-                "nl": "Prowl push notificatie"
-            },
-            "args": [
-              {
-                  "name":"message",
-                  "type":"text",
-                  "placeholder":{
-                     "en":"Message",
-                     "nl":"Bericht"
-                  }
-               },
-               {
-                "name": "priority",
-                "type": "dropdown",
-                "values": [
-                  { "id": "Normal", "label": { "en": "Normal", "nl": "Normaal" }},
-                  { "id": "Very Low", "label": { "en": "Very Low", "nl": "Zeer laag" }},
-                  { "id": "Moderate", "label": { "en": "Moderate", "nl": "Laag" }},
-                  { "id": "High", "label": { "en": "High", "nl": "Hoog" }},
-                  { "id": "Emergency", "label": {"en": "Emergency", "nl": "Noodgeval" }}
-                ],
-                "placeholder": { "en": "Priority" },
-                "placeholder": { "nl": "Prioriteit" }
-              }
-            ]
+          "name": "priority",
+          "type": "dropdown",
+          "values": [
+            { "id": "Normal", "label": { "en": "Normal", "nl": "Normaal" }},
+            { "id": "Very Low", "label": { "en": "Very Low", "nl": "Zeer laag" }},
+            { "id": "Moderate", "label": { "en": "Moderate", "nl": "Laag" }},
+            { "id": "High", "label": { "en": "High", "nl": "Hoog" }},
+            { "id": "Emergency", "label": {"en": "Emergency", "nl": "Noodgeval" }}
+          ],
+          "placeholder": { "en": "Priority" },
+          "placeholder": { "nl": "Prioriteit" }
         }
-
-      ]
-    },
-    "dependencies": {
-    		"node-prowl": "*",
-		    "https": "*",
-        "http-min": "*"
+			]
     }
+  ]
+	},
+  "dependencies": {
+    "node-prowl": "*",
+		"https": "*",
+    "http-min": "*"
+  }
 }

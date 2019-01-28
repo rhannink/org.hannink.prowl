@@ -5,7 +5,7 @@
 		"tutorial": "Go to prowlapp.com to get your Api token key for homey",
 		"error": "An error has occurred.",
     "prowlToken": "API key",
-		"prowlLedring": "Light led ring upon sending notification? ",
+		"prowlLedring": "Light ledring upon sending notification? ",
     "saveProwl": "Save",
 		"savedProwl": "Saved",
 		"notsavedProwl": "Failed...",

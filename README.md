@@ -10,8 +10,14 @@ This app lets you send Prowl notifications to use in flows on a Homey device (by
 ### Credits
 
 Most of the credits for this app go to Ton Versteeg, the author of de Pushover, Pushalot and Pushbullet app.
+For SDKv2 version I used the PushSafer app from Kevin Siml for inspiration.....  
 
 ### Changelog
+2.0.0
+
+- Ported Homey Prowl app to sdk2
+- Upgraded all the node-prowl library
+
 0.1.1
 
 - Removed test/debug code from prowl library

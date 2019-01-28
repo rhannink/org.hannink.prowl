@@ -1,68 +1,45 @@
-"use strict";
+'use strict';
 
+const Homey = require('homey');
 var Prowl = require('node-prowl');
 var https = require('https');
-var account = [];
 var request = [];
+var account = [];
 var validation;
 var prowlToken = null;
 var ledringPreference = false;
+var InsightLog = null;
 
-// Get accounts from homey settings page.
-function buildProwlArray() {
-	account = null;
-	account = Homey.manager('settings').get('prowlaccount');
+class MyApp extends Homey.App {
 
-	if (account != null) {
-		prowlToken = account['token'];
-		ledringPreference = account['ledring'];
+	onInit() {
 
-		var url = "https://api.prowlapp.com/publicapi/verify?apikey=";
+        // Start building Prowl accounts array
+		buildProwlArray();
 
-		https.get(url + prowlToken, function (result) {
-			if(result.statusCode == "200"){
-				validation = 1;
+		createInsightlog();
 
-				if (validation == "1"){
-					Homey.log("Prowl - Account validated successful");
-					logValidation();
-				} else {
-					Homey.log("Prowl - Token key invalid");
-				}
-			} else if (result.statusCode > "400") {
-				Homey.log("Prowl - Token key invalid");
-				validation = "0";
-				logValidation();
+		Homey.ManagerSettings.on('set', function (settingname) {
+
+			if (settingname == 'prowlaccount') {
+				console.log('Prowl - Account has been changed/updated...');
+				buildProwlArray();
 			}
-		}
-	).on("error", function (err){console.log("get Prowl API error: " + err)});
+		});
 
-	} else {
-	Homey.log("Prowl - No account configured yet");
+    let sendMessage = new Homey.FlowCardAction('prowlSend');
+		sendMessage
+		.register()
+		.registerRunListener(( args, state ) => {
+			if (typeof validation == 'undefined' || validation == '0') return new Error("Prowl token not configured or valid under settings!");
+				let pToken = prowlToken;
+				let pMessage = args.message;
+				let pPriority = args.priority;
+				if (typeof pMessage == 'undefined' || pMessage == null || pMessage == '') return new Error("Message can not be empty");
+				return prowlSend(pToken, pMessage, pPriority, '');
+		})
 	}
 }
-
-function logValidation() {
-	var validatedSuccess = "Validation successful"
-	var validatedFailed = "Validation failed, bad user/api key!"
-	if (validation == "1") {
-		Homey.manager('settings').set('prowlvalidation', validatedSuccess);
-	} else if (validation == "0") {
-		Homey.manager('settings').set('prowlvalidation', validatedFailed);
-	}
-}
-
-Homey.manager('flow').on('action.prowlSend', function( callback, args ){
-	  if( typeof validation == 'undefined' || validation == '0') return callback( new Error("Prowl api/token key not configured or valid under settings!") );
-		var tempToken = prowlToken;
-		var pMessage = args.message;
-		if( typeof pMessage == 'undefined' ||pMessage == null || pMessage == '') return callback( new Error("Message can not be empty") );
-		var pPriority = args.priority;
-		prowlSend ( tempToken, pMessage, pPriority);
-    callback( null, true ); // we've fired successfully
-});
-
-
 
 // Send notification with parameters
 function prowlSend ( pToken , pMessage, pPriority) {
@@ -92,8 +69,8 @@ function prowlSend ( pToken , pMessage, pPriority) {
 		// These values correspond to the parameters detailed on https://pushover.net/api
 		// 'message' is required. All other values are optional.
 		message: pMessage,   // required
-		application: "Homey"
-		// priority: priority
+		application: "Homey",
+		priority: pPriority
 	};
 	p.push( pMessage, "Homey", function( err, result ) {
 		if ( err ) {
@@ -101,80 +78,74 @@ function prowlSend ( pToken , pMessage, pPriority) {
 			console.log("Error in calling push: " + err);
 		} else {
 			if (ledringPreference == true){
-				LedAnimate("green", 3000);
+				// LedAnimate("green", 3000);
 			}
 		}
-		// Homey.log( "Prowl bericht gestuurd: " + pMessage );
-		Homey.log( "net na aanroep met bericht: " + pMessage );
-
-		Homey.log( result );
+		console.log(result);
 		//Add send notification to Insights
-		Homey.manager('insights').createEntry( 'prowl_sendNotifications', 1, new Date(), function(err, success){
-        if( err ) return Homey.error(err);
-    });
+		InsightEntry(1, new Date());
 	});
 	} else {
 		if (ledringPreference == true){
-			LedAnimate("red", 3000);
+			// LedAnimate("red", 3000);
 		}
 	}
 }
 
-function LedAnimate(colorInput, duration) {
-Homey.manager('ledring').animate(
-    // animation name (choose from loading, pulse, progress, solid)
-    'pulse',
+function InsightEntry(message, date)
+{
 
-    // optional animation-specific options
-    {
-
-	   color: colorInput,
-        rpm: 300 // change rotations per minute
-    },
-
-    // priority
-    'INFORMATIVE',
-
-    // duration
-    duration,
-
-    // callback
-    function( err, success ) {
-        if( err ) return Homey.error(err);
-
-    }
-);
+	Homey.ManagerInsights.getLog('prowl_sendNotifications').then(logs => {
+		logs.createEntry(message,date).catch( err => {
+			console.error(err);
+		});
+	}).catch(err => {
+	console.log("Cannot Make insight entry")
+	});
 }
 
 // Create Insight log
 function createInsightlog() {
-	Homey.manager('insights').createLog( 'prowl_sendNotifications', {
-    label: {
-        en: 'Send Notifications'
-    },
-    type: 'number',
-    units: {
-        en: 'notifications'
-    },
-    decimals: 0
+	Homey.ManagerInsights.createLog('prowl_sendNotifications', {
+		label: {
+			en: 'Send Notifications'
+		},
+		type: 'number',
+		units: {
+			en: 'notifications'
+		},
+		decimals: 0
+	}).then(function (err){
+	console.log("Log Created")
+	}).catch(function (err)
+{
+	console.log("Log Not created. " + err)
 });
 }
 
-var self = module.exports = {
-	init: function () {
+function buildProwlArray() {
+	account = null;
+	account = Homey.ManagerSettings.get('prowlaccount');
 
-		// Start building Pushover accounts array
-		buildProwlArray();
-
-		createInsightlog();
-
-		Homey.manager('settings').on( 'set', function(settingname){
-
-			if(settingname == 'prowlaccount') {
-			Homey.log('Prowl - Account has been changed/updated...');
-			buildProwlArray();
-		}
-		});
-
+	if (account != null) {
+		prowlToken = account['token'];
+		ledringPreference = account['ledring'];
+		validation = 1;
+		console.log("Prowl - Account configured successful");
+	} else {
+		validation = 0;
+		console.log("Prowl - No account configured yet");
 	}
 }
+
+function logValidation() {
+	let validatedSuccess = "Validation successful"
+	let validatedFailed = "Validation failed, bad token!"
+	if (validation == "1") {
+		Homey.ManagerSettings.set('prowlvalidation', validatedSuccess);
+	} else if (validation == "0") {
+		Homey.ManagerSettings.set('prowlvalidation', validatedFailed);
+	}
+}
+
+module.exports = MyApp;
